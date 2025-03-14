@@ -22,7 +22,7 @@ function App() {
 
   async function reviewCode() {
     try {
-      const API_URL = "https://ai-project-fn4a.onrender.com/api"; // Correct backend URL
+      const API_URL = "https://ai-project-fn4a.onrender.com"; // Correct backend URL
       const response = await axios.post(`${API_URL}/review`, { code }); // Use `/api/review` endpoint
       setReview(response.data.message); // Ensure correct response handling
     } catch (error) {
