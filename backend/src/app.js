@@ -1,24 +1,21 @@
 const express = require('express');
-const router = express.Router();
-const generateContent = require('../ai_services');
+const aiRoutes = require('./routes/ai.routes'); // ✅ Correct route import
+const cors = require('cors');
 
-// ✅ Fix API route path
-router.post('/review', async (req, res) => {
-    try {
-        const { code } = req.body;
+const app = express();
 
-        if (!code) {
-            return res.status(400).json({ error: "No code provided for review!" });
-        }
+// ✅ Enable CORS for frontend access
+app.use(cors({ origin: "https://ai-project-1-wu3t.onrender.com" }));
 
-        // ✅ Generate AI review
-        const review = await generateContent(code);
+// ✅ Parse JSON requests
+app.use(express.json());
 
-        res.json({ review }); // ✅ Send AI-generated review to frontend
-    } catch (error) {
-        console.error("Error generating review:", error);
-        res.status(500).json({ error: "Internal server error" });
-    }
+// ✅ Base API route check
+app.get('/', (req, res) => {
+    res.send('Hello World');
 });
 
-module.exports = router;
+// 🔴 Change `/ai` to `/api` to match frontend request
+app.use('/api', aiRoutes);
+
+module.exports = app;
